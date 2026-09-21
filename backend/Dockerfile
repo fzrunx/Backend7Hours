@@ -21,9 +21,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # === Install MinIO mc (build-time) ===
-RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc \
-    -O /usr/local/bin/mc \
-    && chmod +x /usr/local/bin/mc
+# dl.min.io는 410 Gone 처리되어 공식 이미지(quay.io)에서 바이너리를 복사해온다
+COPY --from=quay.io/minio/mc:RELEASE.2025-08-13T08-35-41Z-cpuv1 /usr/bin/mc /usr/local/bin/mc
 
 # requirements.txt 복사 및 설치
 COPY requirements.txt .
